@@ -14,25 +14,7 @@ The Afaan Oromo Picture Dictionary project holds profound importance both as an 
 
 # Write a documentation of the code
 
-# actors and usescases
-1.Learner usecases:
--- register 
--- login
--- search word ( he can sear the word and get its meaning in English but he has to register or log in if they want to view the picture or pronunications);
--- view picture pronunciations
--- take quizzes
--- browse categories (Don't add words to the categoreis, I'll the functionalites myself to add the word)
-categories:
-1. animals
-2. food and drinks
-3. clothing
-4. Family and people 
-5. household items
-6. parts of the body
-7. transporation
-8. education and school
-9. nature
-10. jobs and professions
+
 # color scheme 
 1. red 
 2. white

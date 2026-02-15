@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Input, Button, Card, Text, Spinner } from '@fluentui/react-components';
-import { Search24Regular } from '@fluentui/react-icons';
+import { Search24Regular, Speaker224Regular } from '@fluentui/react-icons';
 import Layout from '../layouts/Layout';
 import { usePage } from '@inertiajs/react';
 
@@ -9,6 +9,11 @@ export default function Home() {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
+
+    const playAudio = (audioPath: string) => {
+        const audio = new Audio(audioPath);
+        audio.play().catch(err => console.error('Audio playback failed:', err));
+    };
 
     const handleSearch = async () => {
         if (!query.trim()) return;
@@ -25,7 +30,7 @@ export default function Home() {
     };
 
     return (
-        <Layout>
+        <Layout title="Afaan Oromo Picture Dictionary">
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                 <h1 style={{ 
                     fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', 
@@ -57,7 +62,7 @@ export default function Home() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                    style={{ width: '100%' }}
+                    style={{ width: '100%', borderRadius: '8px' }}
                     contentAfter={
                         <button
                             onClick={handleSearch}
@@ -98,31 +103,51 @@ export default function Home() {
                 }}>
                     {results.map((word) => (
                         <Card key={word.id} style={{ padding: '1.5rem' }}>
-                            <Text weight="bold" size={500} style={{ color: '#dc143c' }}>
-                                {word.word_oromo}
-                            </Text>
-                            <Text size={400} style={{ display: 'block', marginTop: '0.5rem' }}>
-                                {word.word_english}
-                            </Text>
-                            <Text size={300} style={{ display: 'block', marginTop: '0.5rem', color: '#228b22' }}>
-                                Category: {word.category}
-                            </Text>
-                            {!auth?.user && (
-                                <Text size={200} style={{ display: 'block', marginTop: '1rem', color: '#999' }}>
-                                    Login to view pictures and audio
-                                </Text>
-                            )}
                             {auth?.user && word.image_path && (
                                 <img
                                     src={word.image_path}
                                     alt={word.word_oromo}
-                                    style={{ width: '100%', marginTop: '1rem', borderRadius: '8px' }}
+                                    style={{ 
+                                        width: '100%', 
+                                        height: '200px',
+                                        objectFit: 'cover',
+                                        borderRadius: '8px',
+                                        marginBottom: '1rem'
+                                    }}
                                 />
                             )}
-                            {auth?.user && word.audio_path && (
-                                <audio controls style={{ width: '100%', marginTop: '1rem' }}>
-                                    <source src={word.audio_path} type="audio/mpeg" />
-                                </audio>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                                <Text weight="bold" size={600} style={{ color: '#dc143c' }}>
+                                    {word.word_oromo}
+                                </Text>
+                                {auth?.user && word.audio_path && (
+                                    <button
+                                        onClick={() => playAudio(word.audio_path)}
+                                        style={{
+                                            background: 'none',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            padding: '0.25rem',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            color: '#228b22'
+                                        }}
+                                        title="Play pronunciation"
+                                    >
+                                        <Speaker224Regular />
+                                    </button>
+                                )}
+                            </div>
+                            <Text size={500} style={{ color: '#333', marginBottom: '0.5rem' }}>
+                                {word.word_english}
+                            </Text>
+                            <Text size={300} style={{ color: '#228b22' }}>
+                                Category: {word.category}
+                            </Text>
+                            {!auth?.user && (
+                                <Text size={300} style={{ display: 'block', marginTop: '1rem', color: '#999', fontStyle: 'italic' }}>
+                                    Login to view pictures and audio
+                                </Text>
                             )}
                         </Card>
                     ))}

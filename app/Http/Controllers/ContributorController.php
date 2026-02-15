@@ -44,8 +44,8 @@ class ContributorController extends Controller
             'word_oromo' => 'required|string|max:255',
             'word_english' => 'required|string|max:255',
             'definition' => 'nullable|string',
-            'image' => 'nullable|image|max:1024',
-            'audio' => 'nullable|mimes:mp3,wav,ogg,m4a|max:1536',
+            'image' => 'nullable|image|max:2048',
+            'audio' => 'required|file|mimes:mp3,wav,ogg|max:5120',
         ]);
 
         $data = $validated;

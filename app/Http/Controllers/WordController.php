@@ -13,8 +13,12 @@ class WordController extends Controller
         $query = $request->input('q');
         
         $words = Word::with('category')
-            ->where('word_oromo', 'like', "%{$query}%")
-            ->orWhere('word_english', 'like', "%{$query}%")
+            ->whereNotNull('audio_path')
+            ->where('audio_path', '!=', '')
+            ->where(function($q) use ($query) {
+                $q->where('word_oromo', 'like', "%{$query}%")
+                  ->orWhere('word_english', 'like', "%{$query}%");
+            })
             ->get()
             ->map(function ($word) use ($request) {
                 return [

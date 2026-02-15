@@ -1,6 +1,6 @@
 import Layout from '@/layouts/Layout';
 import { router } from '@inertiajs/react';
-import { Button, Card, Input, Textarea } from '@fluentui/react-components';
+import { Button, Input, Textarea } from '@fluentui/react-components';
 import { useState } from 'react';
 
 interface Contribution {
@@ -61,114 +61,210 @@ export default function Dashboard({ contributions, users, words }: { contributio
     };
 
     return (
-        <Layout>
+        <Layout title="Admin Dashboard - Afaan Oromo Picture Dictionary">
             <div style={{ padding: '0 2rem' }}>
                 <h1 style={{ color: '#dc143c', fontSize: '2rem', marginBottom: '2rem' }}>Dashboard</h1>
 
                 <h2 style={{ color: '#228b22', fontSize: '1.5rem', marginBottom: '1rem' }}>Pending Contributions</h2>
-                <div style={{ display: 'grid', gap: '1.5rem', marginBottom: '3rem' }}>
-                    {contributions.filter(c => c.status === 'pending').map((contribution) => (
-                        <Card key={contribution.id} style={{ padding: '2rem' }}>
-                            <div>
-                                <h3 style={{ margin: 0, fontSize: '1.3rem', color: '#000' }}>
-                                    {contribution.word_oromo} - {contribution.word_english}
-                                </h3>
-                                <p style={{ color: '#666', margin: '0.75rem 0', fontSize: '1rem' }}>
-                                    <span style={{ color: '#228b22' }}>Category:</span> {contribution.category.name} | <span style={{ color: '#228b22' }}>Submitted by:</span> {contribution.user.name}
-                                </p>
-                                <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'end', flexWrap: 'wrap' }}>
-                                    <div style={{ flex: 1, minWidth: '300px' }}>
-                                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#666' }}>
-                                            Rejection reason (optional)
-                                        </label>
-                                        <Textarea
-                                            placeholder="Enter reason for rejection..."
-                                            value={rejectionReason[contribution.id] || ''}
-                                            onChange={(e) => setRejectionReason({ ...rejectionReason, [contribution.id]: e.target.value })}
-                                            style={{ width: '100%' }}
-                                        />
+                {contributions.filter(c => c.status === 'pending').length === 0 ? (
+                    <div style={{ 
+                        padding: '2rem', 
+                        textAlign: 'center', 
+                        border: '1px solid #e0e0e0', 
+                        borderRadius: '8px',
+                        marginBottom: '3rem'
+                    }}>
+                        <p style={{ color: '#666', margin: 0, fontSize: '1rem' }}>No pending contributions</p>
+                    </div>
+                ) : (
+                    <div style={{ 
+                        border: '1px solid #e0e0e0', 
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        marginBottom: '3rem'
+                    }}>
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 150px 120px 200px',
+                            gap: '1rem',
+                            padding: '1rem',
+                            backgroundColor: '#f5f5f5',
+                            fontWeight: 'bold',
+                            borderBottom: '1px solid #e0e0e0'
+                        }}>
+                            <div>Word & Details</div>
+                            <div>Category</div>
+                            <div>Contributor</div>
+                            <div>Actions</div>
+                        </div>
+                        {contributions.filter(c => c.status === 'pending').map((contribution) => (
+                            <div 
+                                key={contribution.id}
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 150px 120px 200px',
+                                    gap: '1rem',
+                                    padding: '1rem',
+                                    borderBottom: '1px solid #f0f0f0',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <div>
+                                    <div style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
+                                        {contribution.word_oromo} - {contribution.word_english}
                                     </div>
-                                    <div style={{ display: 'flex', gap: '1rem' }}>
-                                        <Button
-                                            appearance="primary"
-                                            style={{ backgroundColor: '#228b22', padding: '0.75rem 1.5rem' }}
-                                            onClick={() => handleApprove(contribution.id)}
-                                        >
-                                            Approve
-                                        </Button>
-                                        <Button
-                                            style={{ backgroundColor: '#dc143c', color: 'white', padding: '0.75rem 1.5rem' }}
-                                            onClick={() => handleReject(contribution.id)}
-                                        >
-                                            Reject
-                                        </Button>
-                                    </div>
+                                    <Textarea
+                                        placeholder="Rejection reason..."
+                                        value={rejectionReason[contribution.id] || ''}
+                                        onChange={(e) => setRejectionReason({ ...rejectionReason, [contribution.id]: e.target.value })}
+                                        style={{ width: '100%', fontSize: '0.9rem' }}
+                                        size="small"
+                                    />
                                 </div>
-                            </div>
-                        </Card>
-                    ))}
-                    {contributions.filter(c => c.status === 'pending').length === 0 && (
-                        <Card style={{ padding: '2rem', textAlign: 'center' }}>
-                            <p style={{ color: '#666', margin: 0, fontSize: '1rem' }}>No pending contributions</p>
-                        </Card>
-                    )}
-                </div>
-
-                <h2 style={{ color: '#228b22', fontSize: '1.5rem', marginBottom: '1rem' }}>User Management</h2>
-                <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
-                    {users.map((user) => (
-                        <Card key={user.id} style={{ padding: '1.5rem' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem' }}>
-                                <div style={{ flex: 1 }}>
-                                    <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{user.name}</h3>
-                                    <p style={{ color: '#666', margin: '0.25rem 0', fontSize: '0.9rem' }}>{user.email}</p>
+                                <div style={{ fontSize: '0.9rem', color: '#666' }}>
+                                    {contribution.category.name}
                                 </div>
-                                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginLeft: 'auto' }}>
-                                    <select
-                                        value={user.role}
-                                        onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                                        style={{ 
-                                            padding: '0.5rem', 
-                                            borderRadius: '4px', 
-                                            border: '1px solid #ccc',
-                                            fontSize: '0.95rem'
-                                        }}
-                                    >
-                                        <option value="learner">Learner</option>
-                                        <option value="contributor">Contributor</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
+                                <div style={{ fontSize: '0.9rem', color: '#666' }}>
+                                    {contribution.user.name}
+                                </div>
+                                <div style={{ display: 'flex', gap: '0.5rem' }}>
                                     <Button
-                                        style={{ backgroundColor: '#dc143c', color: 'white' }}
-                                        onClick={() => handleDeleteUser(user.id)}
+                                        appearance="primary"
+                                        size="small"
+                                        style={{ backgroundColor: '#228b22' }}
+                                        onClick={() => handleApprove(contribution.id)}
                                     >
-                                        Delete
+                                        Approve
+                                    </Button>
+                                    <Button
+                                        size="small"
+                                        style={{ backgroundColor: '#dc143c', color: 'white' }}
+                                        onClick={() => handleReject(contribution.id)}
+                                    >
+                                        Reject
                                     </Button>
                                 </div>
                             </div>
-                        </Card>
+                        ))}
+                    </div>
+                )}
+
+                <h2 style={{ color: '#228b22', fontSize: '1.5rem', marginBottom: '1rem' }}>User Management</h2>
+                <div style={{ 
+                    border: '1px solid #e0e0e0', 
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    marginBottom: '3rem'
+                }}>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 200px 120px 100px',
+                        gap: '1rem',
+                        padding: '1rem',
+                        backgroundColor: '#f5f5f5',
+                        fontWeight: 'bold',
+                        borderBottom: '1px solid #e0e0e0'
+                    }}>
+                        <div>User</div>
+                        <div>Email</div>
+                        <div>Role</div>
+                        <div>Action</div>
+                    </div>
+                    {users.map((user) => (
+                        <div 
+                            key={user.id}
+                            style={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 200px 120px 100px',
+                                gap: '1rem',
+                                padding: '1rem',
+                                borderBottom: '1px solid #f0f0f0',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <div style={{ fontWeight: '500' }}>
+                                {user.name}
+                            </div>
+                            <div style={{ fontSize: '0.9rem', color: '#666' }}>
+                                {user.email}
+                            </div>
+                            <div>
+                                <select
+                                    value={user.role}
+                                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                                    style={{ 
+                                        padding: '0.25rem', 
+                                        borderRadius: '4px', 
+                                        border: '1px solid #ccc',
+                                        fontSize: '0.9rem',
+                                        width: '100%'
+                                    }}
+                                >
+                                    <option value="learner">Learner</option>
+                                    <option value="contributor">Contributor</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <div>
+                                <Button
+                                    size="small"
+                                    style={{ backgroundColor: '#dc143c', color: 'white' }}
+                                    onClick={() => handleDeleteUser(user.id)}
+                                >
+                                    Delete
+                                </Button>
+                            </div>
+                        </div>
                     ))}
                 </div>
 
                 <h2 style={{ color: '#228b22', fontSize: '1.5rem', marginBottom: '1rem' }}>All Words</h2>
-                <div style={{ display: 'grid', gap: '1rem' }}>
+                <div style={{ 
+                    border: '1px solid #e0e0e0', 
+                    borderRadius: '8px',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 150px 100px',
+                        gap: '1rem',
+                        padding: '1rem',
+                        backgroundColor: '#f5f5f5',
+                        fontWeight: 'bold',
+                        borderBottom: '1px solid #e0e0e0'
+                    }}>
+                        <div>Word</div>
+                        <div>Category</div>
+                        <div>Action</div>
+                    </div>
                     {words.map((word) => (
-                        <Card key={word.id} style={{ padding: '1.5rem' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem' }}>
-                                <div style={{ flex: 1 }}>
-                                    <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{word.word_oromo} - {word.word_english}</h3>
-                                    <p style={{ color: '#666', margin: '0.5rem 0', fontSize: '0.9rem' }}>
-                                        <span style={{ color: '#228b22' }}>Category:</span> {word.category.name}
-                                    </p>
-                                </div>
+                        <div 
+                            key={word.id}
+                            style={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 150px 100px',
+                                gap: '1rem',
+                                padding: '1rem',
+                                borderBottom: '1px solid #f0f0f0',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <div style={{ fontWeight: '500' }}>
+                                {word.word_oromo} - {word.word_english}
+                            </div>
+                            <div style={{ fontSize: '0.9rem', color: '#666' }}>
+                                {word.category.name}
+                            </div>
+                            <div>
                                 <Button
-                                    style={{ backgroundColor: '#dc143c', color: 'white', marginLeft: 'auto' }}
+                                    size="small"
+                                    style={{ backgroundColor: '#dc143c', color: 'white' }}
                                     onClick={() => handleDeleteWord(word.id)}
                                 >
                                     Delete
                                 </Button>
                             </div>
-                        </Card>
+                        </div>
                     ))}
                 </div>
             </div>

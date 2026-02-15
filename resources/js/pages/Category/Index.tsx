@@ -24,7 +24,7 @@ const categoryIcons: Record<number, string> = {
 
 export default function Index({ categories }: { categories: Category[] }) {
     return (
-        <Layout>
+        <Layout title="Categories - Afaan Oromo Picture Dictionary">
             <h1 style={{ fontSize: '2rem', color: '#dc143c', marginBottom: '2rem', textAlign: 'center' }}>
                 Browse Categories
             </h1>

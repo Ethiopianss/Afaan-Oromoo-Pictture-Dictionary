@@ -10,17 +10,22 @@ import {
     MenuItem,
 } from '@fluentui/react-components';
 import { ChevronDown20Regular } from '@fluentui/react-icons';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 
 interface LayoutProps {
     children: ReactNode;
+    title?: string;
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, title = 'Afaan Oromo Picture Dictionary' }: LayoutProps) {
     const { auth } = usePage().props as any;
     const [isHovered, setIsHovered] = useState(false);
     const [loginHovered, setLoginHovered] = useState(false);
     const [registerHovered, setRegisterHovered] = useState(false);
+
+    useEffect(() => {
+        document.title = title;
+    }, [title]);
 
     return (
         <FluentProvider theme={webLightTheme}>

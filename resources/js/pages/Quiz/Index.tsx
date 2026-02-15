@@ -95,7 +95,7 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
     }, [currentQuestion, questions]);
 
     return (
-        <Layout>
+        <Layout title="Quiz - Afaan Oromo Picture Dictionary">
             <h1 style={{ fontSize: '2rem', color: '#dc143c', marginBottom: '2rem', textAlign: 'center' }}>Quiz</h1>
 
             {!quizStarted && !quizFinished && (

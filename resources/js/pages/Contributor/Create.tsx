@@ -1,11 +1,12 @@
 import Layout from '@/layouts/Layout';
 import { useForm } from '@inertiajs/react';
-import { Button, Input, Label, Textarea, Select } from '@fluentui/react-components';
+import { Button, Input, Label, Textarea, Dropdown, Option } from '@fluentui/react-components';
 import { FormEvent } from 'react';
 
 interface Category {
     id: number;
     name: string;
+    name_oromo?: string;
 }
 
 export default function Create({ categories }: { categories: Category[] }) {
@@ -26,7 +27,7 @@ export default function Create({ categories }: { categories: Category[] }) {
     };
 
     return (
-        <Layout>
+        <Layout title="Add New Word - Afaan Oromo Picture Dictionary">
             <div style={{ 
                 maxWidth: '700px', 
                 margin: '2rem auto', 
@@ -48,24 +49,18 @@ export default function Create({ categories }: { categories: Category[] }) {
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     <div>
                         <Label required style={{ fontWeight: '600', marginBottom: '0.5rem', display: 'block' }}>Category</Label>
-                        <select
-                            value={data.category_id}
-                            onChange={(e) => setData('category_id', e.target.value)}
-                            style={{ 
-                                width: '100%', 
-                                padding: '0.75rem', 
-                                borderRadius: '4px', 
-                                border: '1px solid #d1d1d1',
-                                fontSize: '1rem',
-                                backgroundColor: 'white'
-                            }}
-                            required
+                        <Dropdown
+                            placeholder="Select a category"
+                            value={data.category_id ? categories.find(cat => cat.id.toString() === data.category_id)?.name : ''}
+                            onOptionSelect={(_, data) => setData('category_id', data.optionValue || '')}
+                            style={{ width: '100%' }}
                         >
-                            <option value="">Select a category</option>
                             {categories.map((cat) => (
-                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                <Option key={cat.id} value={cat.id.toString()}>
+                                    {cat.name} {cat.name_oromo && `(${cat.name_oromo})`}
+                                </Option>
                             ))}
-                        </select>
+                        </Dropdown>
                         {errors.category_id && <span style={{ color: '#dc143c', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>{errors.category_id}</span>}
                     </div>
 
@@ -122,11 +117,12 @@ export default function Create({ categories }: { categories: Category[] }) {
                     </div>
 
                     <div>
-                        <Label style={{ fontWeight: '600', marginBottom: '0.5rem', display: 'block' }}>Audio</Label>
+                        <Label required style={{ fontWeight: '600', marginBottom: '0.5rem', display: 'block' }}>Audio (mp3, wav, or ogg - max 5MB)</Label>
                         <input
                             type="file"
-                            accept="audio/*"
+                            accept=".mp3,.wav,.ogg,audio/mpeg,audio/wav,audio/ogg"
                             onChange={(e) => setData('audio', e.target.files?.[0] || null)}
+                            required
                             style={{ 
                                 display: 'block', 
                                 marginTop: '0.5rem',

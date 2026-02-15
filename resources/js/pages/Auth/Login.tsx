@@ -16,40 +16,98 @@ export default function Login() {
     };
 
     return (
-        <Layout>
-            <div style={{ maxWidth: '700px', margin: '2rem auto', padding: '0 1rem' }}>
-                <Card style={{ padding: '2rem' }}>
-                    <h1 style={{ fontSize: '1.75rem', color: '#dc143c', marginBottom: '1.5rem' }}>
-                        Login
-                    </h1>
+        <Layout title="Login - Afaan Oromo Picture Dictionary">
+            <div style={{ 
+                minHeight: '80vh', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+                padding: '2rem 1rem'
+            }}>
+                <Card style={{ 
+                    padding: '3rem', 
+                    maxWidth: '450px', 
+                    width: '100%',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                    border: '1px solid #e0e0e0'
+                }}>
+                    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                        <h1 style={{ 
+                            fontSize: '2.5rem', 
+                            color: '#dc143c', 
+                            marginBottom: '0.5rem',
+                            fontWeight: 'bold'
+                        }}>
+                            Welcome Back
+                        </h1>
+                        <Text style={{ color: '#666', fontSize: '1.1rem' }}>
+                            Sign in to your account
+                        </Text>
+                    </div>
+
                     <form onSubmit={handleSubmit}>
-                        <div style={{ marginBottom: '1.25rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.95rem' }}>Email</label>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{ 
+                                display: 'block', 
+                                marginBottom: '0.75rem', 
+                                fontSize: '1rem',
+                                fontWeight: '500',
+                                color: '#333'
+                            }}>
+                                Email Address
+                            </label>
                             <Input
                                 type="email"
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
-                                style={{ width: '100%' }}
+                                style={{ 
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    fontSize: '1rem'
+                                }}
+                                placeholder="Enter your email"
                             />
                             {errors.email && (
-                                <Text size={200} style={{ color: '#dc143c', display: 'block', marginTop: '0.25rem' }}>
+                                <Text size={200} style={{ 
+                                    color: '#dc143c', 
+                                    display: 'block', 
+                                    marginTop: '0.5rem',
+                                    fontSize: '0.9rem'
+                                }}>
                                     {errors.email}
                                 </Text>
                             )}
                         </div>
 
-                        <div style={{ marginBottom: '1.25rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.95rem' }}>
+                        <div style={{ marginBottom: '2rem' }}>
+                            <label style={{ 
+                                display: 'block', 
+                                marginBottom: '0.75rem', 
+                                fontSize: '1rem',
+                                fontWeight: '500',
+                                color: '#333'
+                            }}>
                                 Password
                             </label>
                             <Input
                                 type="password"
                                 value={data.password}
                                 onChange={(e) => setData('password', e.target.value)}
-                                style={{ width: '100%' }}
+                                style={{ 
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    fontSize: '1rem'
+                                }}
+                                placeholder="Enter your password"
                             />
                             {errors.password && (
-                                <Text size={200} style={{ color: '#dc143c', display: 'block', marginTop: '0.25rem' }}>
+                                <Text size={200} style={{ 
+                                    color: '#dc143c', 
+                                    display: 'block', 
+                                    marginTop: '0.5rem',
+                                    fontSize: '0.9rem'
+                                }}>
                                     {errors.password}
                                 </Text>
                             )}
@@ -59,18 +117,41 @@ export default function Login() {
                             appearance="primary"
                             type="submit"
                             disabled={processing}
-                            style={{ width: '100%', backgroundColor: '#228b22', marginTop: '0.5rem' }}
+                            style={{ 
+                                width: '100%', 
+                                backgroundColor: '#228b22',
+                                padding: '0.875rem',
+                                fontSize: '1.1rem',
+                                fontWeight: '600',
+                                border: 'none',
+                                borderRadius: '6px',
+                                cursor: processing ? 'not-allowed' : 'pointer'
+                            }}
                         >
-                            Login
+                            {processing ? 'Signing In...' : 'Sign In'}
                         </Button>
                     </form>
 
-                    <Text size={300} style={{ marginTop: '1.5rem', display: 'block', textAlign: 'center' }}>
-                        Don't have an account?{' '}
-                        <Link href="/register" style={{ color: '#dc143c' }}>
-                            Register
-                        </Link>
-                    </Text>
+                    <div style={{ 
+                        marginTop: '2rem', 
+                        textAlign: 'center',
+                        paddingTop: '1.5rem',
+                        borderTop: '1px solid #e0e0e0'
+                    }}>
+                        <Text style={{ fontSize: '1rem', color: '#666' }}>
+                            Don't have an account?{' '}
+                            <Link 
+                                href="/register" 
+                                style={{ 
+                                    color: '#dc143c', 
+                                    textDecoration: 'none',
+                                    fontWeight: '600'
+                                }}
+                            >
+                                Create Account
+                            </Link>
+                        </Text>
+                    </div>
                 </Card>
             </div>
         </Layout>

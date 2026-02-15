@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('word_english');
             $table->text('definition')->nullable();
             $table->string('image_path')->nullable();
-            $table->string('audio_path')->nullable();
+            $table->string('audio_path');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

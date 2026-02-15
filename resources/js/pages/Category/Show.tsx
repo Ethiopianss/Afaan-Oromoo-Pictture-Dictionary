@@ -25,11 +25,11 @@ export default function Show({ category }: { category: Category }) {
 
     const playAudio = (audioPath: string) => {
         const audio = new Audio(audioPath);
-        audio.play();
+        audio.play().catch(err => console.error('Audio playback failed:', err));
     };
 
     return (
-        <Layout>
+        <Layout title={`${category.name} - Afaan Oromo Picture Dictionary`}>
             <div style={{ marginBottom: '2rem' }}>
                 <h1 style={{ fontSize: '2rem', color: '#dc143c', marginBottom: '0.5rem' }}>
                     {category.name}
@@ -43,10 +43,11 @@ export default function Show({ category }: { category: Category }) {
                 style={{
                     display: 'grid',
                     gap: '1.5rem',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
                     gridAutoRows: 'min-content',
                     alignItems: 'start'
                 }}
+                className="category-words-grid"
             >
                 {category.words.map((word) => (
                     <Card 

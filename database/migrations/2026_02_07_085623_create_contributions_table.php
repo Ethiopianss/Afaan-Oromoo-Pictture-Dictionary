@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('word_english');
             $table->text('definition')->nullable();
             $table->string('image_path')->nullable();
-            $table->string('audio_path')->nullable();
+            $table->string('audio_path');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->text('rejection_reason')->nullable();
             $table->timestamps();
