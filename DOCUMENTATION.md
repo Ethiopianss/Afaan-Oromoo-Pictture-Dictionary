@@ -30,6 +30,7 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) DEFAULT 'learner', -- learner, contributor, admin
     remember_token VARCHAR(100),
     created_at TIMESTAMP,
     updated_at TIMESTAMP
@@ -75,6 +76,25 @@ CREATE TABLE quiz_attempts (
     updated_at TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+);
+```
+
+### Contributions Table
+```sql
+CREATE TABLE contributions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    word_oromo VARCHAR(255) NOT NULL,
+    word_english VARCHAR(255) NOT NULL,
+    definition TEXT,
+    image_path VARCHAR(255),
+    audio_path VARCHAR(255),
+    status VARCHAR(50) DEFAULT 'pending', -- pending, approved, rejected
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 ```
 
@@ -213,6 +233,63 @@ CREATE TABLE quiz_attempts (
 }
 ```
 
+### Contributor Endpoints (Require Authentication)
+
+#### GET /contributor/dashboard
+**Description:** View contributor's submission history  
+**Response:** Inertia page with user's contributions
+
+#### GET /contributor/create
+**Description:** Word contribution form  
+**Response:** Inertia page with submission form
+
+#### POST /contributor/store
+**Description:** Submit new word contribution  
+**Request Body:** (multipart/form-data)
+```json
+{
+    "word_oromo": "Saree",
+    "word_english": "Dog",
+    "definition": "A domesticated animal",
+    "category_id": 1,
+    "image": "file",  // optional
+    "audio": "file"   // optional
+}
+```
+**Response:** Redirect to contributor dashboard
+
+### Admin Endpoints (Require Authentication + Admin Role)
+
+#### GET /admin/dashboard
+**Description:** Admin panel with pending contributions and user management  
+**Response:** Inertia page with contributions and users
+
+#### POST /admin/contributions/{id}/approve
+**Description:** Approve a pending contribution  
+**Response:** Redirect to admin dashboard
+
+#### POST /admin/contributions/{id}/reject
+**Description:** Reject a pending contribution  
+**Response:** Redirect to admin dashboard
+
+#### POST /admin/users/{id}/role
+**Description:** Update user role  
+**Request Body:**
+```json
+{
+    "role": "contributor"  // learner, contributor, or admin
+}
+```
+**Response:** Redirect to admin dashboard
+
+#### DELETE /admin/users/{id}
+**Description:** Delete a user  
+**Response:** Redirect to admin dashboard
+
+#### DELETE /admin/words/{id}
+**Description:** Delete a word  
+**Response:** Redirect to admin dashboard
+
 ## Component Structure
 
 ### Layout Component
@@ -223,6 +300,7 @@ CREATE TABLE quiz_attempts (
 **Features:**
 - Responsive navigation bar
 - User authentication state display
+- Role-based navigation (learner, contributor, admin)
 - Ethiopian flag color scheme
 - Fluent UI theming
 

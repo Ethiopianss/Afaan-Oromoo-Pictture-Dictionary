@@ -8,6 +8,17 @@ use Inertia\Inertia;
 
 class WordController extends Controller
 {
+    public function featured()
+    {
+        $words = Word::whereNotNull('image_path')
+            ->where('image_path', '!=', '')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get(['word_oromo', 'word_english', 'image_path']);
+        
+        return response()->json($words);
+    }
+
     public function search(Request $request)
     {
         $query = $request->input('q');

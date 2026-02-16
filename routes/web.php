@@ -12,6 +12,7 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
+Route::get('/words/featured', [WordController::class, 'featured'])->name('words.featured');
 Route::get('/search', [WordController::class, 'search'])->name('words.search');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');

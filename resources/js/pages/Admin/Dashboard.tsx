@@ -49,20 +49,22 @@ export default function Dashboard({ contributions, users, words }: { contributio
     };
 
     const handleDeleteUser = (userId: number) => {
-        if (confirm('Are you sure you want to delete this user?')) {
+        const user = users.find(u => u.id === userId);
+        if (confirm(`Are you sure you want to delete user "${user?.name}" (${user?.email})?\n\nThis action cannot be undone.`)) {
             router.delete(`/admin/users/${userId}`);
         }
     };
 
     const handleDeleteWord = (wordId: number) => {
-        if (confirm('Are you sure you want to delete this word?')) {
+        const word = words.find(w => w.id === wordId);
+        if (confirm(`Are you sure you want to delete the word "${word?.word_oromo} - ${word?.word_english}"?\n\nThis action cannot be undone.`)) {
             router.delete(`/admin/words/${wordId}`);
         }
     };
 
     return (
         <Layout title="Admin Dashboard - Afaan Oromo Picture Dictionary">
-            <div style={{ padding: '0 2rem' }}>
+            <div>
                 <h1 style={{ color: '#dc143c', fontSize: '2rem', marginBottom: '2rem' }}>Dashboard</h1>
 
                 <h2 style={{ color: '#228b22', fontSize: '1.5rem', marginBottom: '1rem' }}>Pending Contributions</h2>

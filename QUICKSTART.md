@@ -7,20 +7,26 @@ Your Afaan Oromo Picture Dictionary application is now ready to use.
 ## What's Been Created
 
 ### Backend (Laravel)
-- ✅ Database migrations for users, categories, words, and quiz attempts
-- ✅ Models: User, Category, Word, QuizAttempt
-- ✅ Controllers: AuthController, WordController, CategoryController, QuizController
-- ✅ Routes configured for all features
+- ✅ Database migrations for users, categories, words, quiz attempts, and contributions
+- ✅ Models: User, Category, Word, QuizAttempt, Contribution
+- ✅ Controllers: AuthController, WordController, CategoryController, QuizController, ContributorController, AdminController
+- ✅ Routes configured for all features (public, learner, contributor, admin)
 - ✅ 10 categories seeded
-- ✅ 15 sample words added (Animals, Food, Family categories)
+- ✅ Sample words added (Animals, Food, Family categories)
+- ✅ Role-based access control (learner, contributor, admin)
+- ✅ Admin and contributor test accounts
 
 ### Frontend (React + Fluent UI)
-- ✅ Home page with search functionality
+- ✅ Home page with search functionality and featured words
+- ✅ Welcome/splash page
 - ✅ Login and Registration pages
 - ✅ Category browsing pages
 - ✅ Quiz interface with progress tracking
+- ✅ Contributor dashboard and word submission form
+- ✅ Admin dashboard for managing contributions and users
 - ✅ Responsive layout with Ethiopian flag colors
 - ✅ Fluent UI components integrated
+- ✅ Role-based navigation
 
 ## Running the Application
 
@@ -56,17 +62,31 @@ php artisan serve
 - Search for: "Saree", "Dog", "Bishaan", "Father"
 - You'll see word translations but no images/audio
 
-### 2. Register a New User
+### 2. Register a New User (Learner Role)
 - Click "Register" in the navigation
 - Fill in: Name, Email, Password
-- After registration, you're automatically logged in
+- After registration, you're automatically logged in as a learner
+- Browse categories and take quizzes
 
-### 3. Browse Categories
+### 3. Test Contributor Features
+- Login with: contributor@afaanoromo.com / password
+- Click "Contribute" in navigation
+- Submit a new word with image and audio
+- View your submissions in the contributor dashboard
+
+### 4. Test Admin Features
+- Login with: admin@afaanoromo.com / password
+- Click "Admin" in navigation
+- Review pending contributions (approve/reject)
+- Manage user roles
+- Delete inappropriate content
+
+### 5. Browse Categories
 - Click "Categories" in navigation
 - You'll see all 10 categories
 - Click on "Animals", "Food and Drinks", or "Family and People" to see words
 
-### 4. Take a Quiz
+### 6. Take a Quiz
 - Click "Quiz" in navigation (must be logged in)
 - Click "Start Quiz"
 - Answer 10 random questions

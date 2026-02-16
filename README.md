@@ -1,6 +1,6 @@
 # Afaan Oromo Picture Dictionary
 
-A comprehensive web application for learning Afaan Oromo through visual aids, audio pronunciations, and interactive quizzes.
+A comprehensive web application for learning Afaan Oromo through visual aids, audio pronunciations, and interactive quizzes. Features a role-based system with learners, contributors, and administrators.
 
 ## Tech Stack
 
@@ -13,12 +13,28 @@ A comprehensive web application for learning Afaan Oromo through visual aids, au
 
 ## Features
 
-### For Learners
-- **Search Words**: Search for Afaan Oromo words and get English translations (available to all users)
-- **Visual Learning**: View pictures and hear pronunciations (requires login)
+### For All Users (Public)
+- **Search Words**: Search for Afaan Oromo words and get English translations
 - **Browse Categories**: Explore 10 different word categories
+- **Featured Words**: View highlighted vocabulary on the home page
+
+### For Learners (Authenticated Users)
+- **Visual Learning**: View pictures and hear pronunciations
 - **Interactive Quizzes**: Test vocabulary knowledge with image-based questions
 - **Progress Tracking**: Track quiz scores and performance over time
+- **Word Details**: Access full word information including definitions and audio
+
+### For Contributors
+- **Submit New Words**: Contribute new vocabulary entries to the dictionary
+- **Contribution Dashboard**: Track submitted words and their approval status
+- **Add Media**: Upload images and audio files for word entries
+- **Category Assignment**: Organize contributions by category
+
+### For Administrators
+- **Review Contributions**: Approve or reject word submissions from contributors
+- **User Management**: Manage user roles (learner, contributor, admin)
+- **Content Moderation**: Delete inappropriate words or users
+- **System Overview**: Monitor all contributions and user activity
 
 ### Categories
 1. Animals (Bineensota)
@@ -37,21 +53,24 @@ A comprehensive web application for learning Afaan Oromo through visual aids, au
 ### Backend (Laravel)
 
 #### Models
-- `User.php` - User authentication and profile
+- `User.php` - User authentication, profile, and role management (learner, contributor, admin)
 - `Category.php` - Word categories
 - `Word.php` - Dictionary entries with Oromo/English translations
 - `QuizAttempt.php` - Quiz history and scores
+- `Contribution.php` - User-submitted word contributions pending approval
 
 #### Controllers
 - `AuthController.php` - Registration, login, logout
-- `WordController.php` - Word search and display
+- `WordController.php` - Word search, display, and featured words
 - `CategoryController.php` - Category browsing
 - `QuizController.php` - Quiz generation and scoring
+- `ContributorController.php` - Word contribution submission and dashboard
+- `AdminController.php` - Contribution approval, user management, content moderation
 
 #### Database Schema
 
 **users**
-- id, name, email, password, timestamps
+- id, name, email, password, role (learner/contributor/admin), timestamps
 
 **categories**
 - id, name, name_oromo, timestamps
@@ -59,21 +78,31 @@ A comprehensive web application for learning Afaan Oromo through visual aids, au
 **words**
 - id, word_oromo, word_english, definition, image_path, audio_path, category_id, timestamps
 
+**contributions**
+- id, user_id, category_id, word_oromo, word_english, definition, image_path, audio_path, status (pending/approved/rejected), timestamps
+
 **quiz_attempts**
 - id, user_id, category_id, score, total_questions, timestamps
 
 ### Frontend (React)
 
 #### Pages
-- `Home.tsx` - Landing page with search functionality
+- `Home.tsx` - Landing page with search functionality and featured words
+- `welcome.tsx` - Welcome/splash page
 - `Auth/Login.tsx` - User login
 - `Auth/Register.tsx` - User registration
 - `Category/Index.tsx` - Category listing
 - `Category/Show.tsx` - Words in a category
 - `Quiz/Index.tsx` - Quiz interface and history
+- `Contributor/Dashboard.tsx` - Contributor's submission history
+- `Contributor/Create.tsx` - New word contribution form
+- `Admin/Dashboard.tsx` - Admin panel for managing contributions and users
+
+#### Components
+- `WordSlider.tsx` - Featured words carousel
 
 #### Layout
-- `Layout.tsx` - Main application layout with navigation
+- `Layout.tsx` - Main application layout with role-based navigation
 
 ## Color Scheme
 
@@ -106,25 +135,48 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-5. **Run migrations and seed categories**
+5. **Run migrations and seed database**
 ```bash
 php artisan migrate:fresh
 php artisan db:seed --class=CategorySeeder
+php artisan db:seed --class=SampleWordSeeder
+php artisan db:seed --class=AdminSeeder
+php artisan db:seed --class=ContributorSeeder
 ```
 
-6. **Build frontend assets**
+6. **Create storage link**
+```bash
+php artisan storage:link
+```
+
+7. **Build frontend assets**
 ```bash
 npm run build
 # or for development
 npm run dev
 ```
 
-7. **Start the server**
+8. **Start the server**
 ```bash
 php artisan serve
 ```
 
 Visit `http://localhost:8000` in your browser.
+
+## Default Users
+
+After seeding, you can login with these accounts:
+
+**Admin Account**
+- Email: admin@afaanoromo.com
+- Password: password
+
+**Contributor Account**
+- Email: contributor@afaanoromo.com
+- Password: password
+
+**Learner Account**
+- Register a new account (default role is learner)
 
 ## Usage
 
@@ -135,6 +187,20 @@ Visit `http://localhost:8000` in your browser.
 3. **Search**: Use the search bar on the home page to find words
 4. **Browse Categories**: Click "Categories" to explore organized vocabulary
 5. **Take Quizzes**: Click "Quiz" (when logged in) to test your knowledge
+
+### For Contributors
+
+1. **Login**: Use contributor credentials or request contributor role from admin
+2. **Submit Words**: Navigate to "Contribute" to add new words
+3. **Upload Media**: Add images and audio files for your submissions
+4. **Track Status**: View your contribution history and approval status in the dashboard
+
+### For Administrators
+
+1. **Login**: Use admin credentials
+2. **Review Contributions**: Approve or reject pending word submissions
+3. **Manage Users**: Change user roles or remove users
+4. **Moderate Content**: Delete inappropriate words or contributions
 
 ### Adding Words (Admin/Developer)
 
@@ -160,6 +226,7 @@ Word::create([
 - `GET /search?q={query}` - Search words
 - `GET /categories` - List categories
 - `GET /categories/{id}` - View category words
+- `GET /words/featured` - Get featured words
 - `GET /login` - Login page
 - `POST /login` - Authenticate user
 - `GET /register` - Registration page
@@ -171,6 +238,19 @@ Word::create([
 - `POST /quiz/start` - Start new quiz
 - `POST /quiz/submit` - Submit quiz results
 - `POST /logout` - Logout user
+
+### Contributor Routes (Requires Authentication)
+- `GET /contributor/dashboard` - View contribution history
+- `GET /contributor/create` - New word contribution form
+- `POST /contributor/store` - Submit new word contribution
+
+### Admin Routes (Requires Authentication + Admin Role)
+- `GET /admin/dashboard` - Admin panel
+- `POST /admin/contributions/{id}/approve` - Approve contribution
+- `POST /admin/contributions/{id}/reject` - Reject contribution
+- `POST /admin/users/{id}/role` - Update user role
+- `DELETE /admin/users/{id}` - Delete user
+- `DELETE /admin/words/{id}` - Delete word
 
 ## Accessibility
 
@@ -184,13 +264,14 @@ The application is built with accessibility in mind:
 
 ## Future Enhancements
 
-- Community contribution system for adding new words
 - Audio recording functionality
 - Advanced quiz modes (listening comprehension, spelling)
 - User profiles with learning statistics
 - Spaced repetition algorithm for vocabulary review
 - Mobile app version
 - Offline mode support
+- Social features (word sharing, leaderboards)
+- Multi-language support beyond Oromo and English
 
 ## Development
 

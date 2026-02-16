@@ -110,8 +110,7 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                         <Button
                             appearance="primary"
                             onClick={startQuiz}
-                            size="large"
-                            style={{ backgroundColor: '#228b22', padding: '1rem 2rem', fontSize: '1.1rem' }}
+                            style={{ backgroundColor: '#228b22', paddingLeft: '1rem', paddingRight: '1rem' }}
                         >
                             Take A Quiz
                         </Button>
@@ -150,24 +149,34 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                     <Text size={300} style={{ marginBottom: '1rem', display: 'block' }}>
                         Question {currentQuestion + 1} of {questions.length}
                     </Text>
-                    {questions[currentQuestion].image_path && (
-                        <img
-                            src={questions[currentQuestion].image_path}
-                            alt="Question"
-                            style={{
-                                width: '100%',
-                                maxWidth: '400px',
-                                marginBottom: '1rem',
-                                borderRadius: '8px',
-                            }}
-                        />
+                    {questions[currentQuestion].image_path ? (
+                        <>
+                            <img
+                                src={questions[currentQuestion].image_path}
+                                alt="Question"
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '400px',
+                                    marginBottom: '1rem',
+                                    borderRadius: '8px',
+                                    display: 'block',
+                                    margin: '0 auto 1rem',
+                                }}
+                            />
+                            <Text weight="bold" size={500} style={{ marginBottom: '2rem', display: 'block', textAlign: 'center' }}>
+                                What is this in Afaan Oromoo?
+                            </Text>
+                        </>
+                    ) : (
+                        <>
+                            <Text weight="bold" size={500} style={{ marginBottom: '1rem', display: 'block' }}>
+                                What is this in Afaan Oromoo?
+                            </Text>
+                            <Text size={600} style={{ color: '#dc143c', marginBottom: '2rem', display: 'block' }}>
+                                {questions[currentQuestion].word_english}
+                            </Text>
+                        </>
                     )}
-                    <Text weight="bold" size={500} style={{ marginBottom: '1rem', display: 'block' }}>
-                        What is this in Afaan Oromo?
-                    </Text>
-                    <Text size={600} style={{ color: '#dc143c', marginBottom: '2rem', display: 'block' }}>
-                        {questions[currentQuestion].word_english}
-                    </Text>
 
                     <RadioGroup value={selectedAnswer} onChange={(_, data) => setSelectedAnswer(data.value)}>
                         {options.map((option) => (

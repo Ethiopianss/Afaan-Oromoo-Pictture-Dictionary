@@ -1,14 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input, Button, Card, Text, Spinner } from '@fluentui/react-components';
 import { Search24Regular, Speaker224Regular } from '@fluentui/react-icons';
 import Layout from '../layouts/Layout';
 import { usePage } from '@inertiajs/react';
+import WordSlider from '../components/WordSlider';
 
 export default function Home() {
     const { auth } = usePage().props as any;
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
+    const [featuredWords, setFeaturedWords] = useState<any[]>([]);
+
+    useEffect(() => {
+        fetch('/words/featured')
+            .then(res => res.json())
+            .then(data => setFeaturedWords(data))
+            .catch(err => console.error('Failed to load featured words:', err));
+    }, []);
 
     const playAudio = (audioPath: string) => {
         const audio = new Audio(audioPath);
@@ -49,6 +58,8 @@ export default function Home() {
                     Learn Afaan Oromo with pictures, audio, and interactive quizzes
                 </p>
             </div>
+
+            <WordSlider words={featuredWords} />
 
             <div
                 style={{

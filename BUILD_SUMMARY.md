@@ -2,7 +2,7 @@
 
 ## ✅ Project Complete!
 
-Your Afaan Oromo Picture Dictionary web application has been successfully built and is ready to use.
+Your Afaan Oromo Picture Dictionary web application has been successfully built with role-based access control and is ready to use.
 
 ---
 
@@ -10,30 +10,37 @@ Your Afaan Oromo Picture Dictionary web application has been successfully built 
 
 ### Backend (Laravel 11)
 
-#### Database Migrations (4 files)
+#### Database Migrations (7 files)
 1. ✅ `create_categories_table.php` - 10 word categories
 2. ✅ `create_words_table.php` - Dictionary entries with images/audio
 3. ✅ `create_quiz_attempts_table.php` - Quiz history tracking
-4. ✅ Default Laravel tables (users, cache, jobs)
+4. ✅ `add_role_to_users_table.php` - User roles (learner/contributor/admin)
+5. ✅ `create_contributions_table.php` - User-submitted word contributions
+6. ✅ Default Laravel tables (users, cache, jobs)
 
-#### Models (4 files)
-1. ✅ `User.php` - Authentication + quiz relationship
+#### Models (5 files)
+1. ✅ `User.php` - Authentication + role management + relationships
 2. ✅ `Category.php` - Word categories
 3. ✅ `Word.php` - Dictionary entries
 4. ✅ `QuizAttempt.php` - Quiz results
+5. ✅ `Contribution.php` - User contributions
 
-#### Controllers (4 files)
+#### Controllers (6 files)
 1. ✅ `AuthController.php` - Login, register, logout
-2. ✅ `WordController.php` - Search and display words
+2. ✅ `WordController.php` - Search, display, and featured words
 3. ✅ `CategoryController.php` - Browse categories
 4. ✅ `QuizController.php` - Quiz logic and scoring
+5. ✅ `ContributorController.php` - Word submission and dashboard
+6. ✅ `AdminController.php` - Contribution approval, user management
 
-#### Seeders (2 files)
+#### Seeders (4 files)
 1. ✅ `CategorySeeder.php` - 10 categories seeded
-2. ✅ `SampleWordSeeder.php` - 15 sample words added
+2. ✅ `SampleWordSeeder.php` - Sample words added
+3. ✅ `AdminSeeder.php` - Admin account created
+4. ✅ `ContributorSeeder.php` - Contributor account created
 
 #### Routes
-1. ✅ `web.php` - All application routes
+1. ✅ `web.php` - All application routes (public, learner, contributor, admin)
 2. ✅ `auth.php` - Authentication routes
 
 ---
@@ -41,15 +48,22 @@ Your Afaan Oromo Picture Dictionary web application has been successfully built 
 ### Frontend (React 19 + TypeScript)
 
 #### Layout (1 file)
-1. ✅ `Layout.tsx` - Main app wrapper with navigation
+1. ✅ `Layout.tsx` - Main app wrapper with role-based navigation
 
-#### Pages (7 files)
-1. ✅ `Home.tsx` - Search functionality
-2. ✅ `Auth/Login.tsx` - User login
-3. ✅ `Auth/Register.tsx` - User registration
-4. ✅ `Category/Index.tsx` - Category listing
-5. ✅ `Category/Show.tsx` - Words in category
-6. ✅ `Quiz/Index.tsx` - Interactive quiz
+#### Pages (11 files)
+1. ✅ `Home.tsx` - Search functionality and featured words
+2. ✅ `welcome.tsx` - Welcome/splash page
+3. ✅ `Auth/Login.tsx` - User login
+4. ✅ `Auth/Register.tsx` - User registration
+5. ✅ `Category/Index.tsx` - Category listing
+6. ✅ `Category/Show.tsx` - Words in category
+7. ✅ `Quiz/Index.tsx` - Interactive quiz
+8. ✅ `Contributor/Dashboard.tsx` - Contribution history
+9. ✅ `Contributor/Create.tsx` - Word submission form
+10. ✅ `Admin/Dashboard.tsx` - Admin panel
+
+#### Components (1 file)
+1. ✅ `WordSlider.tsx` - Featured words carousel
 7. ✅ `welcome.tsx` - Original welcome page (can be removed)
 
 #### Styling
@@ -84,20 +98,36 @@ Your Afaan Oromo Picture Dictionary web application has been successfully built 
 - ✅ Browse 10 categories
 - ✅ View category word lists
 - ✅ See word counts per category
+- ✅ View featured words on home page
 
-### For Registered Users (Login Required)
-- ✅ View word images
-- ✅ Listen to audio pronunciations
-- ✅ Take interactive quizzes (10 questions)
+### For Learners (Authenticated Users)
+- ✅ View word images and audio pronunciations
+- ✅ Take interactive quizzes (10 questions per quiz)
 - ✅ View quiz history and scores
 - ✅ Track learning progress
 
+### For Contributors (Authenticated Users)
+- ✅ Submit new word contributions
+- ✅ Upload images and audio files
+- ✅ View contribution history
+- ✅ Track approval status (pending/approved/rejected)
+- ✅ Contributor dashboard
+
+### For Administrators (Authenticated Users)
+- ✅ Review pending contributions
+- ✅ Approve or reject word submissions
+- ✅ Manage user roles (promote/demote users)
+- ✅ Delete inappropriate content
+- ✅ Delete users
+- ✅ Admin dashboard with statistics
+
 ### Authentication
-- ✅ User registration
+- ✅ User registration (default role: learner)
 - ✅ User login with remember me
 - ✅ Secure logout
 - ✅ Session management
 - ✅ CSRF protection
+- ✅ Role-based access control
 
 ---
 
@@ -112,6 +142,13 @@ Your Afaan Oromo Picture Dictionary web application has been successfully built 
 6. Parts of the Body (Qaamolee Qaamaa)
 7. Transportation (Geejjiba)
 8. Education and School (Barnoota fi Mana Barumsaa)
+9. Nature (Uumama)
+10. Jobs and Professions (Hojii fi Ogummaa)
+
+### Default Users
+- **Admin**: admin@afaanoromo.com / password
+- **Contributor**: contributor@afaanoromo.com / password
+- **Learners**: Register new accounts (default role)
 9. Nature (Uumama)
 10. Jobs and Professions (Hojii fi Ogummaa)
 

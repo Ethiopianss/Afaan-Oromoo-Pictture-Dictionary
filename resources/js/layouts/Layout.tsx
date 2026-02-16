@@ -151,35 +151,42 @@ export default function Layout({ children, title = 'Afaan Oromo Picture Dictiona
                                                 width: '100%',
                                                 height: '2px',
                                                 backgroundColor: 'white',
-                                                transition: 'transform 0.3s ease, opacity 0.3s ease',
-                                                transform: isHovered ? 'translateY(7px) rotate(45deg)' : 'none'
+                                                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                transform: isHovered ? 'translateY(7px) rotate(45deg)' : 'translateY(0) rotate(0)'
                                             }} />
                                             <span style={{
                                                 display: 'block',
                                                 width: '100%',
                                                 height: '2px',
                                                 backgroundColor: 'white',
-                                                transition: 'opacity 0.3s ease',
-                                                opacity: isHovered ? 0 : 1
+                                                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                opacity: isHovered ? 0 : 1,
+                                                transform: isHovered ? 'scale(0)' : 'scale(1)'
                                             }} />
                                             <span style={{
                                                 display: 'block',
                                                 width: '100%',
                                                 height: '2px',
                                                 backgroundColor: 'white',
-                                                transition: 'transform 0.3s ease, opacity 0.3s ease',
-                                                transform: isHovered ? 'translateY(-7px) rotate(-45deg)' : 'none'
+                                                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                transform: isHovered ? 'translateY(-7px) rotate(-45deg)' : 'translateY(0) rotate(0)'
                                             }} />
                                         </div>
                                     </Button>
                                 </MenuTrigger>
-                                <MenuPopover>
+                                <MenuPopover style={{ 
+                                    animation: 'slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    transformOrigin: 'top'
+                                }}>
                                     <MenuList>
                                         <MenuItem 
                                             onClick={() => router.visit('/login')}
                                             onMouseEnter={() => setLoginHovered(true)}
                                             onMouseLeave={() => setLoginHovered(false)}
-                                            style={{ color: loginHovered ? '#228b22' : 'inherit' }}
+                                            style={{ 
+                                                color: loginHovered ? '#228b22' : 'inherit',
+                                                transition: 'all 0.2s ease'
+                                            }}
                                         >
                                             Login
                                         </MenuItem>
@@ -187,7 +194,10 @@ export default function Layout({ children, title = 'Afaan Oromo Picture Dictiona
                                             onClick={() => router.visit('/register')}
                                             onMouseEnter={() => setRegisterHovered(true)}
                                             onMouseLeave={() => setRegisterHovered(false)}
-                                            style={{ color: registerHovered ? '#228b22' : 'inherit' }}
+                                            style={{ 
+                                                color: registerHovered ? '#228b22' : 'inherit',
+                                                transition: 'all 0.2s ease'
+                                            }}
                                         >
                                             Register
                                         </MenuItem>
@@ -197,7 +207,7 @@ export default function Layout({ children, title = 'Afaan Oromo Picture Dictiona
                         )}
                     </div>
                 </nav>
-                <main style={{ padding: '1rem', maxWidth: '1200px', margin: '0 auto', flex: '1', marginBottom: '2rem' }}>
+                <main style={{ padding: '1rem 2rem', flex: '1', marginBottom: '2rem' }}>
                     {children}
                 </main>
                 <footer style={{
