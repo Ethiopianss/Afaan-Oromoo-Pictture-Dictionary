@@ -34,7 +34,13 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
                 },
+                credentials: 'same-origin'
             });
+            
+            if (!response.ok) {
+                throw new Error('Failed to start quiz');
+            }
+            
             const data = await response.json();
             setQuestions(data);
             setQuizStarted(true);
@@ -43,6 +49,7 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
             setQuizFinished(false);
         } catch (error) {
             console.error('Failed to start quiz:', error);
+            alert('Failed to start quiz. Please try again.');
         }
     };
 
@@ -145,8 +152,8 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
             )}
 
             {quizStarted && !quizFinished && questions.length > 0 && (
-                <Card style={{ padding: '2rem' }}>
-                    <Text size={300} style={{ marginBottom: '1rem', display: 'block' }}>
+                <Card style={{ padding: '1.5rem', maxWidth: '600px', margin: '0 auto' }}>
+                    <Text size={300} style={{ marginBottom: '0.75rem', display: 'block', color: '#666' }}>
                         Question {currentQuestion + 1} of {questions.length}
                     </Text>
                     {questions[currentQuestion].image_path ? (
@@ -156,23 +163,25 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                                 alt="Question"
                                 style={{
                                     width: '100%',
-                                    maxWidth: '400px',
+                                    maxWidth: '300px',
+                                    maxHeight: '250px',
+                                    objectFit: 'cover',
                                     marginBottom: '1rem',
                                     borderRadius: '8px',
                                     display: 'block',
                                     margin: '0 auto 1rem',
                                 }}
                             />
-                            <Text weight="bold" size={500} style={{ marginBottom: '2rem', display: 'block', textAlign: 'center' }}>
+                            <Text weight="bold" size={500} style={{ marginBottom: '1rem', display: 'block', textAlign: 'center' }}>
                                 What is this in Afaan Oromoo?
                             </Text>
                         </>
                     ) : (
                         <>
-                            <Text weight="bold" size={500} style={{ marginBottom: '1rem', display: 'block' }}>
+                            <Text weight="bold" size={500} style={{ marginBottom: '0.75rem', display: 'block' }}>
                                 What is this in Afaan Oromoo?
                             </Text>
-                            <Text size={600} style={{ color: '#dc143c', marginBottom: '2rem', display: 'block' }}>
+                            <Text size={600} style={{ color: '#dc143c', marginBottom: '1rem', display: 'block' }}>
                                 {questions[currentQuestion].word_english}
                             </Text>
                         </>
@@ -180,7 +189,7 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
 
                     <RadioGroup value={selectedAnswer} onChange={(_, data) => setSelectedAnswer(data.value)}>
                         {options.map((option) => (
-                            <Radio key={option} value={option} label={option} />
+                            <Radio key={option} value={option} label={option} style={{ marginBottom: '0.5rem' }} />
                         ))}
                     </RadioGroup>
 
@@ -188,7 +197,7 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                         appearance="primary"
                         onClick={handleAnswer}
                         disabled={!selectedAnswer}
-                        style={{ marginTop: '2rem', backgroundColor: '#228b22' }}
+                        style={{ marginTop: '1.5rem', backgroundColor: '#228b22' }}
                     >
                         {currentQuestion + 1 === questions.length ? 'Finish' : 'Next'}
                     </Button>

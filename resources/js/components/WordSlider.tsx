@@ -20,7 +20,7 @@ export default function WordSlider({ words }: { words: Word[] }) {
             
             setLastIndex(randomIndex);
             setCurrent(randomIndex);
-        }, 5000);
+        }, 3500);
         return () => clearInterval(timer);
     }, [words.length, lastIndex]);
 

@@ -22,12 +22,16 @@ class QuizController extends Controller
     {
         $categoryId = $request->input('category_id');
         
-        $query = Word::with('category');
+        $query = Word::with('category')->whereNotNull('image_path');
         if ($categoryId) {
             $query->where('category_id', $categoryId);
         }
         
         $words = $query->inRandomOrder()->take(10)->get();
+        
+        if ($words->count() < 4) {
+            return response()->json(['error' => 'Not enough words available for quiz'], 400);
+        }
         
         return response()->json($words);
     }

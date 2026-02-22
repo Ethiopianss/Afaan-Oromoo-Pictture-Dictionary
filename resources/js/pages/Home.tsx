@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Input, Button, Card, Text, Spinner } from '@fluentui/react-components';
 import { Search24Regular, Speaker224Regular } from '@fluentui/react-icons';
 import Layout from '../layouts/Layout';
-import { usePage } from '@inertiajs/react';
+import { usePage, Link } from '@inertiajs/react';
 import WordSlider from '../components/WordSlider';
 
 export default function Home() {
@@ -11,6 +11,28 @@ export default function Home() {
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [featuredWords, setFeaturedWords] = useState<any[]>([]);
+
+    useEffect(() => {
+        // Add custom CSS for green focus
+        const style = document.createElement('style');
+        style.textContent = `
+            .green-focus .fui-Input__input:focus,
+            .green-focus .fui-Input__input:focus-visible {
+                border-bottom-color: #228b22 !important;
+                outline-color: #228b22 !important;
+            }
+            .green-focus::after {
+                border-bottom-color: #228b22 !important;
+                background-color: #228b22 !important;
+            }
+            .green-focus:focus-within::after {
+                border-bottom-color: #228b22 !important;
+                background-color: #228b22 !important;
+            }
+        `;
+        document.head.appendChild(style);
+        return () => document.head.removeChild(style);
+    }, []);
 
     useEffect(() => {
         fetch('/words/featured')
@@ -73,7 +95,11 @@ export default function Home() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                    style={{ width: '100%', borderRadius: '8px' }}
+                    className="green-focus"
+                    style={{ 
+                        width: '100%', 
+                        borderRadius: '8px'
+                    }}
                     contentAfter={
                         <button
                             onClick={handleSearch}
@@ -156,9 +182,21 @@ export default function Home() {
                                 Category: {word.category}
                             </Text>
                             {!auth?.user && (
-                                <Text size={300} style={{ display: 'block', marginTop: '1rem', color: '#999', fontStyle: 'italic' }}>
-                                    Login to view pictures and audio
-                                </Text>
+                                <Link href="/login">
+                                    <Text 
+                                        size={300} 
+                                        style={{ 
+                                            display: 'block', 
+                                            marginTop: '1rem', 
+                                            color: '#228b22',
+                                            fontStyle: 'italic',
+                                            cursor: 'pointer',
+                                            textDecoration: 'underline'
+                                        }}
+                                    >
+                                        Login to view pictures and audio
+                                    </Text>
+                                </Link>
                             )}
                         </Card>
                     ))}
