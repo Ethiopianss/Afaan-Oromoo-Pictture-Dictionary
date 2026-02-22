@@ -103,21 +103,21 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
 
     return (
         <Layout title="Quiz - Afaan Oromo Picture Dictionary">
-            <h1 style={{ fontSize: '2rem', color: '#dc143c', marginBottom: '2rem', textAlign: 'center' }}>Quiz</h1>
+            <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', color: '#dc143c', marginBottom: '2rem', textAlign: 'center', padding: '0 1rem' }}>Quiz</h1>
 
             {!quizStarted && !quizFinished && (
-                <div>
-                    <Card style={{ padding: '3rem', marginBottom: '3rem', textAlign: 'center' }}>
-                        <Text size={600} style={{ marginBottom: '1rem', display: 'block', color: '#dc143c' }}>
+                <div style={{ padding: '0 1rem' }}>
+                    <Card style={{ padding: 'clamp(1.5rem, 4vw, 3rem)', marginBottom: '3rem', textAlign: 'center' }}>
+                        <Text size={600} style={{ marginBottom: '1rem', display: 'block', color: '#dc143c', fontSize: 'clamp(1.2rem, 4vw, 1.5rem)' }}>
                             Test Your Knowledge!
                         </Text>
-                        <Text size={400} style={{ marginBottom: '2rem', display: 'block', color: '#666' }}>
+                        <Text size={400} style={{ marginBottom: '2rem', display: 'block', color: '#666', fontSize: 'clamp(0.9rem, 2.5vw, 1rem)' }}>
                             Challenge yourself with 10 random questions from our dictionary
                         </Text>
                         <Button
                             appearance="primary"
                             onClick={startQuiz}
-                            style={{ backgroundColor: '#228b22', paddingLeft: '1rem', paddingRight: '1rem' }}
+                            style={{ backgroundColor: '#228b22', paddingLeft: 'clamp(1rem, 3vw, 2rem)', paddingRight: 'clamp(1rem, 3vw, 2rem)' }}
                         >
                             Take A Quiz
                         </Button>
@@ -125,8 +125,8 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
 
                     {attempts.length > 0 && (
                         <>
-                            <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#dc143c' }}>Recent Attempts</h2>
-                            <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+                            <h2 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.5rem)', marginBottom: '1.5rem', color: '#dc143c' }}>Recent Attempts</h2>
+                            <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))' }}>
                                 {attempts.map((attempt) => (
                                     <Card key={attempt.id} style={{ padding: '1.5rem' }}>
                                         <Text size={500} style={{ display: 'block', marginBottom: '0.5rem', color: '#228b22', fontWeight: 'bold' }}>
@@ -152,8 +152,8 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
             )}
 
             {quizStarted && !quizFinished && questions.length > 0 && (
-                <Card style={{ padding: '1.5rem', maxWidth: '600px', margin: '0 auto' }}>
-                    <Text size={300} style={{ marginBottom: '0.75rem', display: 'block', color: '#666' }}>
+                <Card style={{ padding: 'clamp(1rem, 3vw, 1.5rem)', maxWidth: '600px', margin: '0 auto' }}>
+                    <Text size={300} style={{ marginBottom: '0.75rem', display: 'block', color: '#666', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)' }}>
                         Question {currentQuestion + 1} of {questions.length}
                     </Text>
                     {questions[currentQuestion].image_path ? (
@@ -164,7 +164,7 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                                 style={{
                                     width: '100%',
                                     maxWidth: '300px',
-                                    maxHeight: '250px',
+                                    maxHeight: 'clamp(200px, 40vw, 250px)',
                                     objectFit: 'cover',
                                     marginBottom: '1rem',
                                     borderRadius: '8px',
@@ -172,16 +172,16 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                                     margin: '0 auto 1rem',
                                 }}
                             />
-                            <Text weight="bold" size={500} style={{ marginBottom: '1rem', display: 'block', textAlign: 'center' }}>
+                            <Text weight="bold" size={500} style={{ marginBottom: '1rem', display: 'block', textAlign: 'center', fontSize: 'clamp(1rem, 3vw, 1.2rem)' }}>
                                 What is this in Afaan Oromoo?
                             </Text>
                         </>
                     ) : (
                         <>
-                            <Text weight="bold" size={500} style={{ marginBottom: '0.75rem', display: 'block' }}>
+                            <Text weight="bold" size={500} style={{ marginBottom: '0.75rem', display: 'block', fontSize: 'clamp(1rem, 3vw, 1.2rem)' }}>
                                 What is this in Afaan Oromoo?
                             </Text>
-                            <Text size={600} style={{ color: '#dc143c', marginBottom: '1rem', display: 'block' }}>
+                            <Text size={600} style={{ color: '#dc143c', marginBottom: '1rem', display: 'block', fontSize: 'clamp(1.2rem, 4vw, 1.5rem)' }}>
                                 {questions[currentQuestion].word_english}
                             </Text>
                         </>
@@ -205,11 +205,11 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
             )}
 
             {quizFinished && (
-                <Card style={{ padding: '2rem', textAlign: 'center' }}>
-                    <Text size={600} style={{ color: '#228b22', marginBottom: '1rem', display: 'block' }}>
+                <Card style={{ padding: 'clamp(1.5rem, 4vw, 2rem)', textAlign: 'center', margin: '0 1rem' }}>
+                    <Text size={600} style={{ color: '#228b22', marginBottom: '1rem', display: 'block', fontSize: 'clamp(1.2rem, 4vw, 1.5rem)' }}>
                         Quiz Complete!
                     </Text>
-                    <Text size={500} style={{ marginBottom: '2rem', display: 'block' }}>
+                    <Text size={500} style={{ marginBottom: '2rem', display: 'block', fontSize: 'clamp(1rem, 3vw, 1.2rem)' }}>
                         Your Score: {score}/{questions.length} (
                         {Math.round((score / questions.length) * 100)}%)
                     </Text>
@@ -219,7 +219,7 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                             setQuizStarted(false);
                             setQuizFinished(false);
                         }}
-                        style={{ backgroundColor: '#228b22' }}
+                        style={{ backgroundColor: '#228b22', padding: 'clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem)' }}
                     >
                         Back to Quiz
                     </Button>

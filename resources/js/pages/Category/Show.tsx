@@ -30,11 +30,11 @@ export default function Show({ category }: { category: Category }) {
 
     return (
         <Layout title={`${category.name} - Afaan Oromo Picture Dictionary`}>
-            <div style={{ marginBottom: '2rem' }}>
-                <h1 style={{ fontSize: '2rem', color: '#dc143c', marginBottom: '0.5rem' }}>
+            <div style={{ marginBottom: '2rem', padding: '0 1rem' }}>
+                <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', color: '#dc143c', marginBottom: '0.5rem' }}>
                     {category.name}
                 </h1>
-                <Text size={500} style={{ color: '#228b22' }}>
+                <Text size={500} style={{ color: '#228b22', fontSize: 'clamp(1rem, 3vw, 1.2rem)' }}>
                     {category.name_oromo}
                 </Text>
             </div>
@@ -43,9 +43,10 @@ export default function Show({ category }: { category: Category }) {
                 style={{
                     display: 'grid',
                     gap: '1.5rem',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))',
                     gridAutoRows: 'min-content',
-                    alignItems: 'start'
+                    alignItems: 'start',
+                    padding: '0 1rem'
                 }}
                 className="category-words-grid"
             >
@@ -53,7 +54,7 @@ export default function Show({ category }: { category: Category }) {
                     <Card 
                         key={word.id} 
                         style={{ 
-                            padding: '1.5rem',
+                            padding: 'clamp(1rem, 2vw, 1.5rem)',
                             height: 'fit-content',
                             display: 'flex',
                             flexDirection: 'column',
@@ -75,7 +76,7 @@ export default function Show({ category }: { category: Category }) {
                                 alt={word.word_oromo}
                                 style={{ 
                                     width: '100%', 
-                                    height: '200px',
+                                    height: 'clamp(150px, 30vw, 200px)',
                                     objectFit: 'cover',
                                     borderRadius: '8px',
                                     marginBottom: '1rem'
@@ -122,7 +123,8 @@ export default function Show({ category }: { category: Category }) {
                                         color: '#228b22',
                                         fontStyle: 'italic',
                                         cursor: 'pointer',
-                                        textDecoration: 'underline'
+                                        textDecoration: 'none',
+                                        fontWeight: '600'
                                     }}
                                 >
                                     Login to view pictures and audio

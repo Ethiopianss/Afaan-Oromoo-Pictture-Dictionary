@@ -77,64 +77,123 @@ export default function Layout({ children, title = 'Afaan Oromo Picture Dictiona
                                         Quiz
                                     </Button>
                                 </Link>
-                                {(auth.user.role === 'contributor' || auth.user.role === 'admin') && (
-                                    <Link href="/contributor/dashboard">
-                                        <Button 
-                                            appearance="subtle" 
-                                            style={{ color: 'white' }}
-                                            onMouseEnter={(e) => e.currentTarget.style.color = '#228b22'}
-                                            onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
-                                        >
-                                            Contribute
-                                        </Button>
-                                    </Link>
-                                )}
                                 {auth.user.role === 'admin' && (
-                                    <Link href="/admin/dashboard">
-                                        <Button 
-                                            appearance="subtle" 
-                                            style={{ color: 'white' }}
-                                            onMouseEnter={(e) => e.currentTarget.style.color = '#228b22'}
-                                            onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
-                                        >
-                                            Dashboard
-                                        </Button>
-                                    </Link>
+                                    <Menu>
+                                        <MenuTrigger>
+                                            <Button 
+                                                appearance="subtle" 
+                                                style={{ color: 'white' }} 
+                                                icon={<ChevronDown20Regular />} 
+                                                iconPosition="after"
+                                                onMouseEnter={(e) => e.currentTarget.style.color = '#228b22'}
+                                                onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
+                                            >
+                                                {auth.user.name}
+                                            </Button>
+                                        </MenuTrigger>
+                                        <MenuPopover>
+                                            <MenuList>
+                                                <MenuItem onClick={() => router.visit('/admin/dashboard')}>
+                                                    Dashboard
+                                                </MenuItem>
+                                                <MenuItem onClick={() => router.visit('/contributor/dashboard')}>
+                                                    Contribute
+                                                </MenuItem>
+                                                <MenuItem>
+                                                    <Link
+                                                        href="/logout"
+                                                        method="post"
+                                                        as="button"
+                                                        style={{
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            cursor: 'pointer',
+                                                            width: '100%',
+                                                            textAlign: 'left',
+                                                        }}
+                                                    >
+                                                        Logout
+                                                    </Link>
+                                                </MenuItem>
+                                            </MenuList>
+                                        </MenuPopover>
+                                    </Menu>
                                 )}
-                                <Menu>
-                                    <MenuTrigger>
-                                        <Button 
-                                            appearance="subtle" 
-                                            style={{ color: 'white' }} 
-                                            icon={<ChevronDown20Regular />} 
-                                            iconPosition="after"
-                                            onMouseEnter={(e) => e.currentTarget.style.color = '#228b22'}
-                                            onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
-                                        >
-                                            {auth.user.name}
-                                        </Button>
-                                    </MenuTrigger>
-                                    <MenuPopover>
-                                        <MenuList>
-                                            <MenuItem>
-                                                <Link
-                                                    href="/logout"
-                                                    method="post"
-                                                    as="button"
-                                                    style={{
-                                                        background: 'none',
-                                                        border: 'none',
-                                                        cursor: 'pointer',
-                                                        width: '100%',
-                                                        textAlign: 'left',
-                                                    }}
-                                                >
-                                                    Logout
-                                                </Link>
-                                            </MenuItem>
-                                        </MenuList>
-                                    </MenuPopover>
-                                </Menu>
+                                {(auth.user.role === 'contributor') && (
+                                    <Menu>
+                                        <MenuTrigger>
+                                            <Button 
+                                                appearance="subtle" 
+                                                style={{ color: 'white' }} 
+                                                icon={<ChevronDown20Regular />} 
+                                                iconPosition="after"
+                                                onMouseEnter={(e) => e.currentTarget.style.color = '#228b22'}
+                                                onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
+                                            >
+                                                {auth.user.name}
+                                            </Button>
+                                        </MenuTrigger>
+                                        <MenuPopover>
+                                            <MenuList>
+                                                <MenuItem onClick={() => router.visit('/contributor/dashboard')}>
+                                                    Contribute
+                                                </MenuItem>
+                                                <MenuItem>
+                                                    <Link
+                                                        href="/logout"
+                                                        method="post"
+                                                        as="button"
+                                                        style={{
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            cursor: 'pointer',
+                                                            width: '100%',
+                                                            textAlign: 'left',
+                                                        }}
+                                                    >
+                                                        Logout
+                                                    </Link>
+                                                </MenuItem>
+                                            </MenuList>
+                                        </MenuPopover>
+                                    </Menu>
+                                )}
+                                {auth.user.role === 'learner' && (
+                                    <Menu>
+                                        <MenuTrigger>
+                                            <Button 
+                                                appearance="subtle" 
+                                                style={{ color: 'white' }} 
+                                                icon={<ChevronDown20Regular />} 
+                                                iconPosition="after"
+                                                onMouseEnter={(e) => e.currentTarget.style.color = '#228b22'}
+                                                onMouseLeave={(e) => e.currentTarget.style.color = 'white'}
+                                            >
+                                                {auth.user.name}
+                                            </Button>
+                                        </MenuTrigger>
+                                        <MenuPopover>
+                                            <MenuList>
+                                                <MenuItem>
+                                                    <Link
+                                                        href="/logout"
+                                                        method="post"
+                                                        as="button"
+                                                        style={{
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            cursor: 'pointer',
+                                                            width: '100%',
+                                                            textAlign: 'left',
+                                                        }}
+                                                    >
+                                                        Logout
+                                                    </Link>
+                                                </MenuItem>
+                                            </MenuList>
+                                        </MenuPopover>
+                                    </Menu>
+                                )}
                             </>
                         ) : (
                             <Menu openOnHover hoverDelay={0}>
@@ -207,7 +266,7 @@ export default function Layout({ children, title = 'Afaan Oromo Picture Dictiona
                         )}
                     </div>
                 </nav>
-                <main style={{ padding: '1rem 2rem', flex: '1', marginBottom: '2rem' }}>
+                <main style={{ padding: 'clamp(0.5rem, 2vw, 1rem) clamp(0.5rem, 3vw, 2rem)', flex: '1', marginBottom: '2rem' }}>
                     {children}
                 </main>
                 <footer style={{

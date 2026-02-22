@@ -191,7 +191,8 @@ export default function Home() {
                                             color: '#228b22',
                                             fontStyle: 'italic',
                                             cursor: 'pointer',
-                                            textDecoration: 'underline'
+                                            textDecoration: 'none',
+                                            fontWeight: '600'
                                         }}
                                     >
                                         Login to view pictures and audio

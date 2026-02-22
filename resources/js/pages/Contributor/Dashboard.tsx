@@ -31,19 +31,21 @@ export default function Dashboard({ contributions }: { contributions: Contributi
 
     return (
         <Layout title="Contributor Dashboard - Afaan Oromo Picture Dictionary">
-            <div style={{ padding: '2rem 0' }}>
+            <div style={{ padding: '1rem' }}>
                 <div style={{ 
                     display: 'flex', 
-                    alignItems: 'center', 
-                    marginBottom: '2rem',
-                    gap: '2rem'
+                    flexDirection: 'column',
+                    gap: '1rem',
+                    marginBottom: '1.5rem'
                 }}>
-                    <h1 style={{ color: '#dc143c', fontSize: '2rem', margin: 0, marginRight: 'auto' }}>Contributor Dashboard</h1>
-                    <Link href="/contributor/create">
-                        <Button appearance="primary" style={{ backgroundColor: '#228b22' }}>
-                            Add New Word
-                        </Button>
-                    </Link>
+                    <h1 style={{ color: '#dc143c', fontSize: 'clamp(1.5rem, 5vw, 2rem)', margin: 0 }}>Contributor Dashboard</h1>
+                    <div className="add-word-btn-wrapper">
+                        <Link href="/contributor/create">
+                            <Button appearance="primary" style={{ backgroundColor: '#228b22' }}>
+                                Add New Word
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
 
                 {contributions.length === 0 ? (
@@ -52,54 +54,38 @@ export default function Dashboard({ contributions }: { contributions: Contributi
                     </p>
                 ) : (
                     <div style={{ 
-                        border: '1px solid #e0e0e0', 
+                        border: '1px solid #e0e0e0',
                         borderRadius: '8px',
+                        backgroundColor: 'white',
                         overflow: 'hidden'
                     }}>
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: '60px 1fr 150px 120px 100px',
-                            gap: '1rem',
-                            padding: '1rem',
-                            backgroundColor: '#f5f5f5',
-                            fontWeight: 'bold',
-                            borderBottom: '1px solid #e0e0e0'
-                        }}>
-                            <div>Image</div>
-                            <div>Word</div>
-                            <div>Category</div>
-                            <div>Date</div>
-                            <div>Status</div>
-                        </div>
-                        {contributions.map((contribution) => (
+                        {contributions.map((contribution, index) => (
                             <div 
                                 key={contribution.id}
                                 style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '60px 1fr 150px 120px 100px',
+                                    display: 'flex',
+                                    alignItems: 'center',
                                     gap: '1rem',
                                     padding: '1rem',
-                                    borderBottom: '1px solid #f0f0f0',
-                                    alignItems: 'center'
+                                    borderBottom: index < contributions.length - 1 ? '1px solid #e0e0e0' : 'none'
                                 }}
                             >
-                                <div>
-                                    {contribution.image_path && (
-                                        <img 
-                                            src={contribution.image_path.startsWith('/storage/') ? contribution.image_path : `/storage/${contribution.image_path}`}
-                                            alt={contribution.word_oromo}
-                                            style={{ 
-                                                width: '50px', 
-                                                height: '50px', 
-                                                objectFit: 'cover', 
-                                                borderRadius: '4px'
-                                            }}
-                                        />
-                                    )}
-                                </div>
-                                <div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                        <strong>{contribution.word_oromo}</strong> - {contribution.word_english}
+                                {contribution.image_path && (
+                                    <img 
+                                        src={contribution.image_path.startsWith('/storage/') ? contribution.image_path : `/storage/${contribution.image_path}`}
+                                        alt={contribution.word_oromo}
+                                        style={{ 
+                                            width: '50px', 
+                                            height: '50px', 
+                                            objectFit: 'cover', 
+                                            borderRadius: '4px',
+                                            flexShrink: 0
+                                        }}
+                                    />
+                                )}
+                                <div style={{ flex: 1, minWidth: 0 }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                                        <strong style={{ fontSize: '1rem' }}>{contribution.word_oromo}</strong>
                                         {contribution.audio_path && (
                                             <button
                                                 onClick={() => playAudio(contribution.audio_path!)}
@@ -118,31 +104,28 @@ export default function Dashboard({ contributions }: { contributions: Contributi
                                             </button>
                                         )}
                                     </div>
+                                    <div style={{ color: '#666', fontSize: '0.9rem' }}>{contribution.word_english}</div>
+                                    <div style={{ color: '#999', fontSize: '0.85rem', marginTop: '0.25rem' }}>
+                                        {contribution.category.name} • {new Date(contribution.created_at).toLocaleDateString()}
+                                    </div>
                                     {contribution.status === 'rejected' && contribution.rejection_reason && (
-                                        <div style={{ color: '#dc143c', fontSize: '0.8rem', marginTop: '0.25rem' }}>
-                                            {contribution.rejection_reason}
+                                        <div style={{ color: '#dc143c', fontSize: '0.85rem', marginTop: '0.5rem' }}>
+                                            <strong>Reason:</strong> {contribution.rejection_reason}
                                         </div>
                                     )}
                                 </div>
-                                <div style={{ fontSize: '0.9rem', color: '#666' }}>
-                                    {contribution.category.name}
-                                </div>
-                                <div style={{ fontSize: '0.9rem', color: '#666' }}>
-                                    {new Date(contribution.created_at).toLocaleDateString()}
-                                </div>
-                                <div>
-                                    <span style={{
-                                        padding: '0.25rem 0.5rem',
-                                        borderRadius: '4px',
-                                        backgroundColor: getStatusColor(contribution.status),
-                                        color: 'white',
-                                        fontSize: '0.8rem',
-                                        fontWeight: 'bold',
-                                        textTransform: 'capitalize'
-                                    }}>
-                                        {contribution.status}
-                                    </span>
-                                </div>
+                                <span style={{
+                                    padding: '0.25rem 0.75rem',
+                                    borderRadius: '4px',
+                                    backgroundColor: getStatusColor(contribution.status),
+                                    color: 'white',
+                                    fontSize: '0.75rem',
+                                    fontWeight: 'bold',
+                                    textTransform: 'capitalize',
+                                    flexShrink: 0
+                                }}>
+                                    {contribution.status}
+                                </span>
                             </div>
                         ))}
                     </div>

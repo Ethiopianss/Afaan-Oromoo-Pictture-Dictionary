@@ -1,7 +1,7 @@
 import Layout from '@/layouts/Layout';
 import { useForm } from '@inertiajs/react';
 import { Button, Input, Label, Textarea, Dropdown, Option } from '@fluentui/react-components';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 
 interface Category {
     id: number;
@@ -19,6 +19,31 @@ export default function Create({ categories }: { categories: Category[] }) {
         audio: null as File | null,
     });
 
+    useEffect(() => {
+        const style = document.createElement('style');
+        style.textContent = `
+            .green-focus .fui-Input__input:focus,
+            .green-focus .fui-Input__input:focus-visible,
+            .green-focus .fui-Textarea__textarea:focus,
+            .green-focus .fui-Textarea__textarea:focus-visible,
+            .green-focus .fui-Dropdown button:focus,
+            .green-focus .fui-Dropdown button:focus-visible {
+                border-bottom-color: #228b22 !important;
+                outline-color: #228b22 !important;
+            }
+            .green-focus::after {
+                border-bottom-color: #228b22 !important;
+                background-color: #228b22 !important;
+            }
+            .green-focus:focus-within::after {
+                border-bottom-color: #228b22 !important;
+                background-color: #228b22 !important;
+            }
+        `;
+        document.head.appendChild(style);
+        return () => document.head.removeChild(style);
+    }, []);
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         post('/contributor/store', {
@@ -30,16 +55,19 @@ export default function Create({ categories }: { categories: Category[] }) {
         <Layout title="Add New Word - Afaan Oromo Picture Dictionary">
             <div style={{ 
                 maxWidth: '700px', 
-                margin: '2rem auto', 
-                padding: '2.5rem',
+                margin: '0 auto', 
+                padding: '1rem',
+            }}>
+            <div style={{
                 backgroundColor: 'white',
                 borderRadius: '8px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                padding: 'clamp(1rem, 4vw, 2.5rem)'
             }}>
                 <h1 style={{ 
                     color: '#dc143c', 
                     marginBottom: '0.5rem',
-                    fontSize: '2rem',
+                    fontSize: 'clamp(1.5rem, 5vw, 2rem)',
                     fontWeight: 'bold'
                 }}>Add New Word</h1>
                 <p style={{ color: '#666', marginBottom: '2rem' }}>
@@ -54,6 +82,7 @@ export default function Create({ categories }: { categories: Category[] }) {
                             value={data.category_id ? categories.find(cat => cat.id.toString() === data.category_id)?.name : ''}
                             onOptionSelect={(_, data) => setData('category_id', data.optionValue || '')}
                             style={{ width: '100%' }}
+                            className="green-focus"
                         >
                             {categories.map((cat) => (
                                 <Option key={cat.id} value={cat.id.toString()}>
@@ -71,6 +100,7 @@ export default function Create({ categories }: { categories: Category[] }) {
                             onChange={(e) => setData('word_oromo', e.target.value)}
                             required
                             style={{ width: '100%' }}
+                            className="green-focus"
                         />
                         {errors.word_oromo && <span style={{ color: '#dc143c', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>{errors.word_oromo}</span>}
                     </div>
@@ -82,6 +112,7 @@ export default function Create({ categories }: { categories: Category[] }) {
                             onChange={(e) => setData('word_english', e.target.value)}
                             required
                             style={{ width: '100%' }}
+                            className="green-focus"
                         />
                         {errors.word_english && <span style={{ color: '#dc143c', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>{errors.word_english}</span>}
                     </div>
@@ -93,6 +124,7 @@ export default function Create({ categories }: { categories: Category[] }) {
                             onChange={(e) => setData('definition', e.target.value)}
                             rows={3}
                             style={{ width: '100%' }}
+                            className="green-focus"
                         />
                         {errors.definition && <span style={{ color: '#dc143c', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>{errors.definition}</span>}
                     </div>
@@ -145,12 +177,14 @@ export default function Create({ categories }: { categories: Category[] }) {
                             marginTop: '1rem',
                             padding: '0.75rem 2rem',
                             fontSize: '1rem',
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            width: '100%'
                         }}
                     >
                         {processing ? 'Submitting...' : 'Submit Contribution'}
                     </Button>
                 </form>
+            </div>
             </div>
         </Layout>
     );

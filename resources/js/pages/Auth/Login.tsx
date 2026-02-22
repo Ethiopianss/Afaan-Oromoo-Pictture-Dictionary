@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import { Input, Button, Card, Text } from '@fluentui/react-components';
 import Layout from '../../layouts/Layout';
@@ -9,6 +9,27 @@ export default function Login() {
         password: '',
         remember: false,
     });
+
+    useEffect(() => {
+        const style = document.createElement('style');
+        style.textContent = `
+            .green-focus .fui-Input__input:focus,
+            .green-focus .fui-Input__input:focus-visible {
+                border-bottom-color: #228b22 !important;
+                outline-color: #228b22 !important;
+            }
+            .green-focus::after {
+                border-bottom-color: #228b22 !important;
+                background-color: #228b22 !important;
+            }
+            .green-focus:focus-within::after {
+                border-bottom-color: #228b22 !important;
+                background-color: #228b22 !important;
+            }
+        `;
+        document.head.appendChild(style);
+        return () => document.head.removeChild(style);
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,10 +44,10 @@ export default function Login() {
                 alignItems: 'center', 
                 justifyContent: 'center',
                 background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
-                padding: '2rem 1rem'
+                padding: 'clamp(1rem, 3vw, 2rem) 1rem'
             }}>
                 <Card style={{ 
-                    padding: '3rem', 
+                    padding: 'clamp(1.5rem, 4vw, 3rem)', 
                     maxWidth: '450px', 
                     width: '100%',
                     boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
@@ -34,14 +55,14 @@ export default function Login() {
                 }}>
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                         <h1 style={{ 
-                            fontSize: '2.5rem', 
+                            fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', 
                             color: '#dc143c', 
                             marginBottom: '0.5rem',
                             fontWeight: 'bold'
                         }}>
                             Welcome Back
                         </h1>
-                        <Text style={{ color: '#666', fontSize: '1.1rem' }}>
+                        <Text style={{ color: '#666', fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)' }}>
                             Sign in to your account
                         </Text>
                     </div>
@@ -51,7 +72,7 @@ export default function Login() {
                             <label style={{ 
                                 display: 'block', 
                                 marginBottom: '0.75rem', 
-                                fontSize: '1rem',
+                                fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
                                 fontWeight: '500',
                                 color: '#333'
                             }}>
@@ -63,17 +84,18 @@ export default function Login() {
                                 onChange={(e) => setData('email', e.target.value)}
                                 style={{ 
                                     width: '100%',
-                                    padding: '0.75rem',
-                                    fontSize: '1rem'
+                                    padding: 'clamp(0.5rem, 2vw, 0.75rem)',
+                                    fontSize: 'clamp(0.9rem, 2.5vw, 1rem)'
                                 }}
                                 placeholder="Enter your email"
+                                className="green-focus"
                             />
                             {errors.email && (
                                 <Text size={200} style={{ 
                                     color: '#dc143c', 
                                     display: 'block', 
                                     marginTop: '0.5rem',
-                                    fontSize: '0.9rem'
+                                    fontSize: 'clamp(0.8rem, 2vw, 0.9rem)'
                                 }}>
                                     {errors.email}
                                 </Text>
@@ -84,7 +106,7 @@ export default function Login() {
                             <label style={{ 
                                 display: 'block', 
                                 marginBottom: '0.75rem', 
-                                fontSize: '1rem',
+                                fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
                                 fontWeight: '500',
                                 color: '#333'
                             }}>
@@ -96,17 +118,18 @@ export default function Login() {
                                 onChange={(e) => setData('password', e.target.value)}
                                 style={{ 
                                     width: '100%',
-                                    padding: '0.75rem',
-                                    fontSize: '1rem'
+                                    padding: 'clamp(0.5rem, 2vw, 0.75rem)',
+                                    fontSize: 'clamp(0.9rem, 2.5vw, 1rem)'
                                 }}
                                 placeholder="Enter your password"
+                                className="green-focus"
                             />
                             {errors.password && (
                                 <Text size={200} style={{ 
                                     color: '#dc143c', 
                                     display: 'block', 
                                     marginTop: '0.5rem',
-                                    fontSize: '0.9rem'
+                                    fontSize: 'clamp(0.8rem, 2vw, 0.9rem)'
                                 }}>
                                     {errors.password}
                                 </Text>
@@ -120,8 +143,8 @@ export default function Login() {
                             style={{ 
                                 width: '100%', 
                                 backgroundColor: '#228b22',
-                                padding: '0.875rem',
-                                fontSize: '1.1rem',
+                                padding: 'clamp(0.625rem, 2vw, 0.875rem)',
+                                fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)',
                                 fontWeight: '600',
                                 border: 'none',
                                 borderRadius: '6px',
@@ -138,7 +161,7 @@ export default function Login() {
                         paddingTop: '1.5rem',
                         borderTop: '1px solid #e0e0e0'
                     }}>
-                        <Text style={{ fontSize: '1rem', color: '#666' }}>
+                        <Text style={{ fontSize: 'clamp(0.9rem, 2.5vw, 1rem)', color: '#666' }}>
                             Don't have an account?{' '}
                             <Link 
                                 href="/register" 

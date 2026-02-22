@@ -1,6 +1,7 @@
 import { Link, useForm } from '@inertiajs/react';
 import { Input, Button, Card, Text } from '@fluentui/react-components';
 import Layout from '../../layouts/Layout';
+import { useEffect } from 'react';
 
 export default function Register() {
     const { data, setData, post, processing, errors } = useForm({
@@ -9,6 +10,27 @@ export default function Register() {
         password: '',
         password_confirmation: '',
     });
+
+    useEffect(() => {
+        const style = document.createElement('style');
+        style.textContent = `
+            .green-focus .fui-Input__input:focus,
+            .green-focus .fui-Input__input:focus-visible {
+                border-bottom-color: #228b22 !important;
+                outline-color: #228b22 !important;
+            }
+            .green-focus::after {
+                border-bottom-color: #228b22 !important;
+                background-color: #228b22 !important;
+            }
+            .green-focus:focus-within::after {
+                border-bottom-color: #228b22 !important;
+                background-color: #228b22 !important;
+            }
+        `;
+        document.head.appendChild(style);
+        return () => document.head.removeChild(style);
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,10 +45,10 @@ export default function Register() {
                 alignItems: 'center', 
                 justifyContent: 'center',
                 background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
-                padding: '2rem 1rem'
+                padding: 'clamp(1rem, 3vw, 2rem) 1rem'
             }}>
                 <Card style={{ 
-                    padding: '3rem', 
+                    padding: 'clamp(1.5rem, 4vw, 3rem)', 
                     maxWidth: '450px', 
                     width: '100%',
                     boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
@@ -34,14 +56,14 @@ export default function Register() {
                 }}>
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                         <h1 style={{ 
-                            fontSize: '2.5rem', 
+                            fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', 
                             color: '#dc143c', 
                             marginBottom: '0.5rem',
                             fontWeight: 'bold'
                         }}>
                             Join Us
                         </h1>
-                        <Text style={{ color: '#666', fontSize: '1.1rem' }}>
+                        <Text style={{ color: '#666', fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)' }}>
                             Create your account to start learning
                         </Text>
                     </div>
@@ -67,6 +89,7 @@ export default function Register() {
                                     fontSize: '1rem'
                                 }}
                                 placeholder="Enter your full name"
+                                className="green-focus"
                             />
                             {errors.name && (
                                 <Text size={200} style={{ 
@@ -100,6 +123,7 @@ export default function Register() {
                                     fontSize: '1rem'
                                 }}
                                 placeholder="Enter your email"
+                                className="green-focus"
                             />
                             {errors.email && (
                                 <Text size={200} style={{ 
@@ -133,6 +157,7 @@ export default function Register() {
                                     fontSize: '1rem'
                                 }}
                                 placeholder="Create a password"
+                                className="green-focus"
                             />
                             {errors.password && (
                                 <Text size={200} style={{ 
@@ -166,6 +191,7 @@ export default function Register() {
                                     fontSize: '1rem'
                                 }}
                                 placeholder="Confirm your password"
+                                className="green-focus"
                             />
                         </div>
 

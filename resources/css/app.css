@@ -9,6 +9,24 @@
 }
 
 /* Mobile responsive enhancements */
+@media (max-width: 490px) {
+    .add-word-btn-wrapper {
+        width: 100%;
+    }
+
+    .add-word-btn-wrapper a,
+    .add-word-btn-wrapper button {
+        width: 100%;
+    }
+}
+
+@media (min-width: 491px) {
+    .add-word-btn-wrapper {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
@@ -35,6 +53,15 @@
 *:focus-visible {
     outline: 2px solid #228b22;
     outline-offset: 2px;
+}
+
+/* Fix dropdown positioning in mobile */
+select {
+    position: relative;
+}
+
+select option {
+    position: relative;
 }
 
 /* Smooth transitions */
