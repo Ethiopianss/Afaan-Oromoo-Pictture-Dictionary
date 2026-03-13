@@ -130,7 +130,7 @@ export default function Create({ categories }: { categories: Category[] }) {
                     </div>
 
                     <div>
-                        <Label style={{ fontWeight: '600', marginBottom: '0.5rem', display: 'block' }}>Image</Label>
+                        <label style={{ fontWeight: '600', marginBottom: '0.5rem', display: 'block' }}>Image</label>
                         <input
                             type="file"
                             accept="image/*"
@@ -142,14 +142,15 @@ export default function Create({ categories }: { categories: Category[] }) {
                                 border: '1px solid #d1d1d1',
                                 borderRadius: '4px',
                                 width: '100%',
-                                fontSize: '0.95rem'
+                                fontSize: '0.95rem',
+                                cursor: 'pointer'
                             }}
                         />
                         {errors.image && <span style={{ color: '#dc143c', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>{errors.image}</span>}
                     </div>
 
                     <div>
-                        <Label required style={{ fontWeight: '600', marginBottom: '0.5rem', display: 'block' }}>Audio (mp3, wav, or ogg - max 5MB)</Label>
+                        <label style={{ fontWeight: '600', marginBottom: '0.5rem', display: 'block' }}>Audio (mp3, wav, or ogg - max 5MB) *</label>
                         <input
                             type="file"
                             accept=".mp3,.wav,.ogg,audio/mpeg,audio/wav,audio/ogg"
@@ -162,7 +163,8 @@ export default function Create({ categories }: { categories: Category[] }) {
                                 border: '1px solid #d1d1d1',
                                 borderRadius: '4px',
                                 width: '100%',
-                                fontSize: '0.95rem'
+                                fontSize: '0.95rem',
+                                cursor: 'pointer'
                             }}
                         />
                         {errors.audio && <span style={{ color: '#dc143c', fontSize: '0.875rem', marginTop: '0.25rem', display: 'block' }}>{errors.audio}</span>}
