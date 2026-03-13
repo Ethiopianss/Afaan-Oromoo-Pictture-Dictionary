@@ -32,9 +32,8 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
-                },
-                credentials: 'same-origin'
+                    'Accept': 'application/json',
+                }
             });
             
             if (!response.ok) {
@@ -117,7 +116,8 @@ export default function Index({ attempts }: { attempts: QuizAttempt[] }) {
                         <Button
                             appearance="primary"
                             onClick={startQuiz}
-                            style={{ backgroundColor: '#228b22', paddingLeft: 'clamp(1rem, 3vw, 2rem)', paddingRight: 'clamp(1rem, 3vw, 2rem)' }}
+                            size="medium"
+                            style={{ backgroundColor: '#228b22', padding: '8px 16px' }}
                         >
                             Take A Quiz
                         </Button>
